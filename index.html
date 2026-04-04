@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frecka Fitness — Weekly Check-In</title>
+
+  <style>
+    @font-face {
+      font-family: 'Halyard Display';
+      src: url('data:font/otf;base64,T1RUTwANAIAAAwBQQ0ZGICENNjQAAAhUAAEQgUZGVE2HAe+lAAH6zAAAABxHREVGBtUIRAABGNgAAABCR1BPU1V7ujkAAWGEAACZSEdTVUIrfsQ5AAEZHAAASGZPUy8yODNSnwAAAUAAAABgY21hcDbxJOIAAAWwAAAChGhlYWQOxEBVAAAA3AAAADZoaGVhB5IEKAAAARQAAAAkaG10eCcdNYcAAfroAAAGxG1heHABsVAAAAABOAAAAAZuYW1lwu7kygAAAaAAAAQOcG9zdP8uADsAAAg0AAAAI') format('opentype');
+      font-weight: 100 900;
+      font-style: normal;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #253551;
+      --off-white: #e0e0db;
+      --warm-white: #eaeae6;
+      --accent: #c8a96e;
+      --accent-dark: #a8893e;
+      --mid-grey: #6a7080;
+      --light-grey: #d0d0cb;
+      --error: #c0392b;
+      --success: #2d6a4f;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Halyard Display', -apple-system, 'Helvetica Neue', sans-serif;
+      background: var(--off-white);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: var(--black);
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 3px solid #e0e0db;
+    }
+
+    /* ── Hero band ── */
+    .hero {
+      background: var(--black);
+      color: var(--off-white);
+      text-align: center;
+      padding: 48px 24px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 24px,
+        rgba(200,169,110,0.04) 24px,
+        rgba(200,169,110,0.04) 25px
+      );
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(245,243,239,0.65);
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── Week badge ── */
+    .week-badge {
+      display: inline-block;
+      background: rgba(200,169,110,0.12);
+      border: 1px solid rgba(200,169,110,0.35);
+      border-radius: 40px;
+      padding: 7px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    /* ── Main container ── */
+    .form-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Progress bar ── */
+    .progress-wrap {
+      margin-bottom: 40px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      height: 3px;
+      background: var(--light-grey);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    /* ── Section headers ── */
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--black);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label span {
+      font-weight: 700;
+      color: var(--black);
+      font-size: 13px;
+    }
+
+    .form-section {
+      margin-bottom: 40px;
+    }
+
+    /* ── Fields ── */
+    .field {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 7px;
+    }
+
+    label .req {
+      color: var(--accent);
+      margin-left: 2px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--warm-white);
+      border: 1.5px solid var(--light-grey);
+      border-radius: 6px;
+      padding: 13px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--black);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      appearance: none;
+      -webkit-appearance: none;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(200,169,110,0.12);
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%237a7670' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 96px;
+      line-height: 1.55;
+    }
+
+    /* ── Two-col grid ── */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 500px) {
+      .field-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── Radio/checkbox option chips ── */
+    .option-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .option-group--column {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    .option-group--column .option-chip label {
+      width: auto;
+    }
+
+    .option-chip input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .option-chip label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--warm-white);
+      border: 1.5px solid var(--light-grey);
+      border-radius: 40px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-transform: none;
+      color: var(--black);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .option-chip label::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid var(--light-grey);
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+
+    .option-chip input:checked + label {
+      background: var(--black);
+      border-color: var(--black);
+      color: var(--off-white);
+    }
+
+    .option-chip input:checked + label::before {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .checkbox-chip label::before {
+      border-radius: 3px;
+    }
+
+    /* ── Scale / slider ── */
+    .scale-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .scale-label {
+      font-size: 11px;
+      color: var(--mid-grey);
+      text-transform: none;
+      letter-spacing: 0;
+      white-space: nowrap;
+      min-width: 60px;
+    }
+
+    .scale-label:last-child { text-align: right; }
+
+    input[type="range"] {
+      flex: 1;
+      height: 4px;
+      appearance: none;
+      -webkit-appearance: none;
+      background: linear-gradient(to right, var(--accent) 0%, var(--accent) 50%, var(--light-grey) 50%, var(--light-grey) 100%);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--black);
+      border: 3px solid var(--accent);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .scale-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      min-width: 30px;
+      text-align: center;
+    }
+
+    /* ── Session counter tiles ── */
+    .session-tiles {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .session-tile {
+      position: relative;
+    }
+
+    .session-tile input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .session-tile label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      background: var(--warm-white);
+      border: 1.5px solid var(--light-grey);
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--mid-grey);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .session-tile input:checked + label {
+      background: var(--black);
+      border-color: var(--black);
+      color: var(--accent);
+    }
+
+    /* ── Highlight card ── */
+    .highlight-card {
+      background: var(--warm-white);
+      border: 1.5px solid var(--light-grey);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .highlight-card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .highlight-card-title::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .highlight-card textarea,
+    .highlight-card input[type="text"] {
+      border: 1.5px solid transparent;
+      background: transparent;
+      padding: 4px 0;
+    }
+
+    .highlight-card textarea:focus,
+    .highlight-card input[type="text"]:focus {
+      border-color: transparent;
+      box-shadow: none;
+      border-bottom: 1.5px solid var(--accent);
+      border-radius: 0;
+    }
+
+    /* ── Submit button ── */
+    .submit-wrap {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    button[type="submit"] {
+      background: var(--black);
+      color: var(--off-white);
+      border: none;
+      border-radius: 6px;
+      padding: 18px 48px;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      width: 100%;
+      max-width: 360px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.18s, transform 0.12s;
+    }
+
+    button[type="submit"]:hover { background: #1f2f45; }
+    button[type="submit"]:active { transform: scale(0.98); }
+
+    button[type="submit"]::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    button[type="submit"]:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .submit-note {
+      font-size: 12px;
+      color: var(--mid-grey);
+      text-align: center;
+    }
+
+    /* ── Success state ── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 64px 24px;
+    }
+
+    .success-screen.visible { display: block; }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .success-icon svg { width: 28px; height: 28px; }
+
+    .success-screen h2 {
+      font-size: 36px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .success-screen p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--mid-grey);
+      max-width: 380px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── Error message ── */
+    .error-msg {
+      display: none;
+      background: #fdf0ee;
+      border: 1.5px solid #e8b4b0;
+      color: var(--error);
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-size: 13px;
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .error-msg.visible { display: block; }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--black);
+      color: rgba(245,243,239,0.35);
+      text-align: center;
+      font-size: 12px;
+      padding: 20px;
+      letter-spacing: 0.06em;
+    }
+
+    .site-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── Helper: field hint ── */
+    .field-hint {
+      font-size: 11px;
+      color: var(--mid-grey);
+      margin-top: 5px;
+      letter-spacing: 0;
+      text-transform: none;
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1225.96 316.84" style="height:48px;width:auto;" aria-label="Frecka Fitness">
+      <g><g>
+        <path fill="#e0e0db" d="M372.22,222.97c-2.7,24.14,14.43,40.23,41.82,40.23,18.12,0,31.51-6.51,45.9-19.92h68.47c-33.5,46.36-81.31,73.56-128.43,73.56-64.44,0-105.46-49.42-88.89-112.64,16.07-61.3,81.48-114.18,147.13-114.18s104.86,50.19,87.58,116.09c-1.61,6.13-3.32,11.11-6.03,16.86h-167.55Zm113.55-42.91c.49-21.84-15.83-36.4-41.61-36.4-24.17,0-48.72,13.79-59.89,36.4h101.5Z"/>
+        <path fill="#e0e0db" d="M716.4,179.29c-4.44-19.92-19.15-29.88-42.11-29.88-30.61,0-57.88,24.14-65.71,54.02-8.13,31.03,7.99,54.02,39.01,54.02,22.56,0,40.87-9.96,55.76-28.35h68.07c-27.25,53.26-84.22,87.74-141.41,87.74-66.05,0-105.06-50.96-88.59-113.79,16.67-63.6,82.39-113.03,146.83-113.03,58.8,0,97.49,35.25,95.82,89.27h-67.67Z"/>
+        <path fill="#e0e0db" d="M876.13,309.36l-36.42-102.3h-.81l-26.81,102.3h-67.49L818.92,25.84h67.49l-35.18,137.07h0l79.43-66.19h79.34l-108.68,93.49,50.53,119.16h-75.72Z"/>
+        <path fill="#e0e0db" d="M1097.01,309.36l6.03-22.99h-.81c-14.59,18.77-44.18,30.27-73.58,30.27-66.06,0-99.02-49.42-82.15-113.79,16.47-62.83,77.65-113.41,141.7-113.41,27.39,0,50.05,10.34,57.82,29.88h.81l5.93-22.61h73.22l-55.73,212.64h-73.22Zm27.92-106.51c7.83-29.88-11.21-54.02-42.63-54.02s-61.1,24.14-69.14,54.79c-7.73,29.5,10.51,53.64,41.52,53.64s62.21-23.76,70.24-54.41Z"/>
+        <path fill="#e0e0db" d="M131.3,96.78l9.14-28.14h130.92L289.13,0H82.79L0,310H75.41l37.48-142.99h102.92c-11.58,11.62-20.3,25.75-24.29,41l-26.73,101.99h75.41l34.84-132.94c2.62-9.99,13.26-18.1,23.77-18.1h39.04l16.24-62.25-222.78,.06Z"/>
+      </g></g>
+    </svg>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="week-badge" id="weekBadge">Weekly Check-In</div>
+    <h1>How's the<br />Week Looking?</h1>
+    <p>Takes 3–4 minutes. Honest answers help Ryan adjust your programming before it becomes a problem.</p>
+  </div>
+
+  <div class="form-wrap">
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 14l6 6L23 8" stroke="#c8a96e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2>Check-in logged.</h2>
+      <p>Ryan will review your week before your next session. Keep pushing — see you in the app.</p>
+    </div>
+
+    <!-- FORM -->
+    <form id="checkInForm">
+
+      <!-- 01 · Your Details -->
+      <div class="form-section">
+        <div class="section-label"><span>01</span> Your Details</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="firstName">First Name <span class="req">*</span></label>
+            <input type="text" id="firstName" name="firstName" placeholder="Alex" required />
+          </div>
+          <div class="field">
+            <label for="lastName">Last Name <span class="req">*</span></label>
+            <input type="text" id="lastName" name="lastName" placeholder="Smith" required />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="email">Email Address <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="alex@email.com" required />
+          </div>
+          <div class="field">
+            <label for="weekEnding">Week Ending <span class="req">*</span></label>
+            <input type="text" id="weekEnding" name="weekEnding" placeholder="e.g. June 8" required />
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 · Training Compliance -->
+      <div class="form-section">
+        <div class="section-label"><span>02</span> Training Compliance</div>
+
+        <div class="field">
+          <label>Sessions Completed This Week <span class="req">*</span></label>
+          <div class="session-tiles">
+            <div class="session-tile">
+              <input type="radio" name="sessionsCompleted" id="s0" value="0" required />
+              <label for="s0">0</label>
+            </div>
+            <div class="session-tile">
+              <input type="radio" name="sessionsCompleted" id="s1" value="1" />
+              <label for="s1">1</label>
+            </div>
+            <div class="session-tile">
+              <input type="radio" name="sessionsCompleted" id="s2" value="2" />
+              <label for="s2">2</label>
+            </div>
+            <div class="session-tile">
+              <input type="radio" name="sessionsCompleted" id="s3" value="3" />
+              <label for="s3">3</label>
+            </div>
+            <div class="session-tile">
+              <input type="radio" name="sessionsCompleted" id="s4" value="4" />
+              <label for="s4">4</label>
+            </div>
+            <div class="session-tile">
+              <input type="radio" name="sessionsCompleted" id="s5" value="5" />
+              <label for="s5">5</label>
+            </div>
+            <div class="session-tile">
+              <input type="radio" name="sessionsCompleted" id="s6" value="6" />
+              <label for="s6">6</label>
+            </div>
+            <div class="session-tile">
+              <input type="radio" name="sessionsCompleted" id="s7" value="7" />
+              <label for="s7">7</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>How did your sessions feel overall? <span class="req">*</span></label>
+          <div class="option-group">
+            <div class="option-chip">
+              <input type="radio" name="sessionFeel" id="sf1" value="Below par — struggled to get through" required />
+              <label for="sf1">Struggled</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="sessionFeel" id="sf2" value="Average — got it done" />
+              <label for="sf2">Average</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="sessionFeel" id="sf3" value="Solid — felt good" />
+              <label for="sf3">Solid</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="sessionFeel" id="sf4" value="Strong — dialled in" />
+              <label for="sf4">Strong</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="sessionFeel" id="sf5" value="Best session in a while" />
+              <label for="sf5">Best in a while</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="missedReason">If you missed sessions — what got in the way?</label>
+          <textarea id="missedReason" name="missedReason" placeholder="Work schedule, illness, travel, life happened..." style="min-height:72px;"></textarea>
+        </div>
+      </div>
+
+      <!-- 03 · Performance -->
+      <div class="form-section">
+        <div class="section-label"><span>03</span> Performance & Progress</div>
+
+        <div class="highlight-card">
+          <div class="highlight-card-title">Best Lift or Performance This Week</div>
+          <input type="text" name="bestLift" id="bestLift" placeholder="e.g. Deadlift 140kg × 3, ran 5k in 24:30..." />
+        </div>
+
+        <div class="field">
+          <label>Compared to Last Week, Lifts/Performance Felt:</label>
+          <div class="option-group">
+            <div class="option-chip">
+              <input type="radio" name="progressTrend" id="pt1" value="Noticeably down" />
+              <label for="pt1">Noticeably down</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="progressTrend" id="pt2" value="About the same" />
+              <label for="pt2">About the same</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="progressTrend" id="pt3" value="Slightly better" />
+              <label for="pt3">Slightly better</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="progressTrend" id="pt4" value="Significantly better" />
+              <label for="pt4">Significantly better</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="programFeedback">Any specific exercises or sets you want to flag?</label>
+          <textarea id="programFeedback" name="programFeedback" placeholder="Movements that felt off, weights that need adjusting, anything you want to swap out..." style="min-height:80px;"></textarea>
+        </div>
+      </div>
+
+      <!-- 04 · Recovery -->
+      <div class="form-section">
+        <div class="section-label"><span>04</span> Recovery</div>
+
+        <div class="field">
+          <label>Average Sleep Quality This Week</label>
+          <div class="scale-wrap">
+            <span class="scale-label">Poor</span>
+            <input type="range" id="sleepQuality" name="sleepQuality" min="1" max="10" value="6"
+              oninput="document.getElementById('sleepQualityVal').textContent=this.value; updateSlider(this);" />
+            <span class="scale-value" id="sleepQualityVal">6</span>
+            <span class="scale-label">Excellent</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Average Hours of Sleep Per Night</label>
+          <div class="scale-wrap">
+            <span class="scale-label">4 hrs</span>
+            <input type="range" id="sleepHours" name="sleepHours" min="4" max="10" step="0.5" value="7"
+              oninput="document.getElementById('sleepHoursVal').textContent=this.value; updateSlider(this);" />
+            <span class="scale-value" id="sleepHoursVal">7</span>
+            <span class="scale-label">10 hrs</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Overall Energy Levels This Week</label>
+          <div class="scale-wrap">
+            <span class="scale-label">Exhausted</span>
+            <input type="range" id="energyLevel" name="energyLevel" min="1" max="10" value="6"
+              oninput="document.getElementById('energyLevelVal').textContent=this.value; updateSlider(this);" />
+            <span class="scale-value" id="energyLevelVal">6</span>
+            <span class="scale-label">Energised</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Stress / Life Load This Week</label>
+          <div class="scale-wrap">
+            <span class="scale-label">Very Low</span>
+            <input type="range" id="stressLevel" name="stressLevel" min="1" max="10" value="5"
+              oninput="document.getElementById('stressLevelVal').textContent=this.value; updateSlider(this);" />
+            <span class="scale-value" id="stressLevelVal">5</span>
+            <span class="scale-label">Very High</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Any Soreness, Pain or Tightness to Flag?</label>
+          <div class="option-group--column option-group">
+            <div class="option-chip">
+              <input type="radio" name="soreness" id="so1" value="Nothing to flag" />
+              <label for="so1">Nothing to flag</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="soreness" id="so2" value="Minor DOMS — expected" />
+              <label for="so2">Minor DOMS — expected</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="soreness" id="so3" value="Persistent soreness / tightness" />
+              <label for="so3">Persistent soreness / tightness</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="soreness" id="so4" value="Pain — needs attention" />
+              <label for="so4">Pain — needs attention</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="sorenessNotes">Soreness / Pain Details</label>
+          <input type="text" id="sorenessNotes" name="sorenessNotes" placeholder="Location, when it started, what makes it worse..." />
+        </div>
+      </div>
+
+      <!-- 05 · Nutrition -->
+      <div class="form-section">
+        <div class="section-label"><span>05</span> Nutrition</div>
+
+        <div class="field">
+          <label>How well did you hit your nutrition targets? <span class="req">*</span></label>
+          <div class="scale-wrap">
+            <span class="scale-label">Off track</span>
+            <input type="range" id="nutritionAdherence" name="nutritionAdherence" min="1" max="10" value="6"
+              oninput="document.getElementById('nutritionAdherenceVal').textContent=this.value; updateSlider(this);" />
+            <span class="scale-value" id="nutritionAdherenceVal">6</span>
+            <span class="scale-label">Dialled in</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="nutritionNotes">Anything worth flagging nutrition-wise?</label>
+          <textarea id="nutritionNotes" name="nutritionNotes" placeholder="Missed meals, social events, big deviation from plan, appetite changes..." style="min-height:72px;"></textarea>
+        </div>
+      </div>
+
+      <!-- 06 · Weekly Summary -->
+      <div class="form-section">
+        <div class="section-label"><span>06</span> Week in Review</div>
+
+        <div class="highlight-card" style="margin-bottom:16px;">
+          <div class="highlight-card-title">Biggest Win This Week</div>
+          <textarea name="weekWin" id="weekWin" placeholder="Something you nailed — in the gym or outside it..." style="min-height:72px; border:none; background:transparent; padding:4px 0;"></textarea>
+        </div>
+
+        <div class="highlight-card" style="border-color: #e0cec0;">
+          <div class="highlight-card-title" style="color:#a07040;">Biggest Challenge This Week</div>
+          <textarea name="weekChallenge" id="weekChallenge" placeholder="What made this week hard — training or life..." style="min-height:72px; border:none; background:transparent; padding:4px 0;"></textarea>
+        </div>
+      </div>
+
+      <!-- 07 · Ryan's Corner -->
+      <div class="form-section">
+        <div class="section-label"><span>07</span> Questions for Ryan</div>
+
+        <div class="field">
+          <label for="coachQuestion">Anything you want Ryan to address before next week?</label>
+          <textarea id="coachQuestion" name="coachQuestion" placeholder="Program questions, technique concerns, mindset stuff — open floor." style="min-height:96px;"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Overall, how would you rate this week? <span class="req">*</span></label>
+          <div class="option-group">
+            <div class="option-chip">
+              <input type="radio" name="weekRating" id="wr1" value="1 – Rough week" required />
+              <label for="wr1">😬 Rough</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="weekRating" id="wr2" value="2 – Below average" />
+              <label for="wr2">😐 Below avg</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="weekRating" id="wr3" value="3 – Average week" />
+              <label for="wr3">🙂 Average</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="weekRating" id="wr4" value="4 – Good week" />
+              <label for="wr4">😊 Good</label>
+            </div>
+            <div class="option-chip">
+              <input type="radio" name="weekRating" id="wr5" value="5 – Great week" />
+              <label for="wr5">🔥 Great</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-wrap">
+        <button type="submit" id="submitBtn">Submit Check-In</button>
+        <p class="submit-note">Sent directly to Ryan. He reviews check-ins every Monday.</p>
+        <div class="error-msg" id="errorMsg">Something went wrong — message Ryan directly on WhatsApp.</div>
+      </div>
+
+    </form>
+  </div>
+
+  <footer class="site-footer">
+    © Frecka Fitness · <a href="https://freckafitness.com" target="_blank">freckafitness.com</a>
+  </footer>
+
+  <script>
+    // ── Populate week badge dynamically ──────────────────────────
+    (function () {
+      const now = new Date();
+      const day = now.getDay(); // 0 = Sun
+      const daysToSun = day === 0 ? 0 : 7 - day;
+      const sunday = new Date(now);
+      sunday.setDate(now.getDate() + daysToSun);
+      const opts = { month: 'long', day: 'numeric', year: 'numeric' };
+      const label = 'Week ending ' + sunday.toLocaleDateString('en-CA', opts);
+      document.getElementById('weekBadge').textContent = label;
+      document.getElementById('weekEnding').placeholder = sunday.toLocaleDateString('en-CA', { month: 'long', day: 'numeric' });
+    })();
+
+    // ── Slider gradient fill ──────────────────────────────────────
+    function updateSlider(el) {
+      const min = parseFloat(el.min) || 0;
+      const max = parseFloat(el.max) || 100;
+      const val = parseFloat(el.value);
+      const pct = ((val - min) / (max - min)) * 100;
+      el.style.background = `linear-gradient(to right, var(--accent) 0%, var(--accent) ${pct}%, var(--light-grey) ${pct}%, var(--light-grey) 100%)`;
+    }
+
+    document.querySelectorAll('input[type="range"]').forEach(updateSlider);
+
+    // ── Progress bar ──────────────────────────────────────────────
+    const REQUIRED_FIELDS = ['firstName', 'lastName', 'email', 'weekEnding'];
+
+    function updateProgress() {
+      const totalSections = 7;
+      let filled = 0;
+
+      if (document.getElementById('firstName').value.trim()) filled++;
+      if (document.getElementById('email').value.trim()) filled++;
+      if (document.querySelector('input[name="sessionsCompleted"]:checked')) filled++;
+      if (document.querySelector('input[name="sessionFeel"]:checked')) filled++;
+      if (document.getElementById('weekWin').value.trim()) filled++;
+      if (document.querySelector('input[name="weekRating"]:checked')) filled++;
+      if (document.getElementById('nutritionAdherence').value) filled++;
+
+      const pct = Math.round((filled / totalSections) * 100);
+      document.querySelector('.progress-fill').style.width = pct + '%';
+      document.querySelector('.progress-label span:last-child').textContent = pct + '%';
+    }
+
+    document.getElementById('checkInForm').addEventListener('input', updateProgress);
+    document.getElementById('checkInForm').addEventListener('change', updateProgress);
+
+    // ── Form submission ───────────────────────────────────────────
+    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // ← paste your deployed URL
+
+    document.getElementById('checkInForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      const errMsg = document.getElementById('errorMsg');
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting…';
+      errMsg.classList.remove('visible');
+
+      const payload = {
+        firstName:           document.getElementById('firstName').value.trim(),
+        lastName:            document.getElementById('lastName').value.trim(),
+        email:               document.getElementById('email').value.trim(),
+        weekEnding:          document.getElementById('weekEnding').value.trim(),
+        sessionsCompleted:   document.querySelector('input[name="sessionsCompleted"]:checked')?.value || '',
+        sessionFeel:         document.querySelector('input[name="sessionFeel"]:checked')?.value || '',
+        missedReason:        document.getElementById('missedReason').value.trim(),
+        bestLift:            document.getElementById('bestLift').value.trim(),
+        progressTrend:       document.querySelector('input[name="progressTrend"]:checked')?.value || '',
+        programFeedback:     document.getElementById('programFeedback').value.trim(),
+        sleepQuality:        document.getElementById('sleepQuality').value,
+        sleepHours:          document.getElementById('sleepHours').value,
+        energyLevel:         document.getElementById('energyLevel').value,
+        stressLevel:         document.getElementById('stressLevel').value,
+        soreness:            document.querySelector('input[name="soreness"]:checked')?.value || '',
+        sorenessNotes:       document.getElementById('sorenessNotes').value.trim(),
+        nutritionAdherence:  document.getElementById('nutritionAdherence').value,
+        nutritionNotes:      document.getElementById('nutritionNotes').value.trim(),
+        weekWin:             document.getElementById('weekWin').value.trim(),
+        weekChallenge:       document.getElementById('weekChallenge').value.trim(),
+        coachQuestion:       document.getElementById('coachQuestion').value.trim(),
+        weekRating:          document.querySelector('input[name="weekRating"]:checked')?.value || '',
+        submittedAt:         new Date().toLocaleString('en-CA', { timeZone: 'America/Toronto' })
+      };
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Network error');
+
+        document.getElementById('checkInForm').style.display = 'none';
+        document.getElementById('successScreen').classList.add('visible');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      } catch (err) {
+        errMsg.classList.add('visible');
+        btn.disabled = false;
+        btn.textContent = 'Submit Check-In';
+      }
+    });
+  </script>
+
+  <!-- Progress bar injected above form-wrap -->
+  <script>
+    const wrap = document.querySelector('.form-wrap');
+    const progressHTML = `
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Completion</span>
+          <span>0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill"></div>
+        </div>
+      </div>`;
+    wrap.insertAdjacentHTML('afterbegin', progressHTML);
+  </script>
+
+</body>
+</html>
