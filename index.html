@@ -6,13 +6,6 @@
   <title>Frecka Fitness — Weekly Check-In</title>
 
   <style>
-    @font-face {
-      font-family: 'Halyard Display';
-      src: url('data:font/otf;base64,T1RUTwANAIAAAwBQQ0ZGICENNjQAAAhUAAEQgUZGVE2HAe+lAAH6zAAAABxHREVGBtUIRAABGNgAAABCR1BPU1V7ujkAAWGEAACZSEdTVUIrfsQ5AAEZHAAASGZPUy8yODNSnwAAAUAAAABgY21hcDbxJOIAAAWwAAAChGhlYWQOxEBVAAAA3AAAADZoaGVhB5IEKAAAARQAAAAkaG10eCcdNYcAAfroAAAGxG1heHABsVAAAAABOAAAAAZuYW1lwu7kygAAAaAAAAQOcG9zdP8uADsAAAg0AAAAI') format('opentype');
-      font-weight: 100 900;
-      font-style: normal;
-    }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -24,13 +17,12 @@
       --mid-grey: #6a7080;
       --light-grey: #d0d0cb;
       --error: #c0392b;
-      --success: #2d6a4f;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Halyard Display', -apple-system, 'Helvetica Neue', sans-serif;
+      font-family: -apple-system, 'Helvetica Neue', sans-serif;
       background: var(--off-white);
       color: var(--black);
       min-height: 100vh;
@@ -46,7 +38,7 @@
       border-bottom: 3px solid #e0e0db;
     }
 
-    /* ── Hero band ── */
+    /* ── Hero ── */
     .hero {
       background: var(--black);
       color: var(--off-white);
@@ -61,22 +53,24 @@
       position: absolute;
       inset: 0;
       background: repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 24px,
-        rgba(200,169,110,0.04) 24px,
-        rgba(200,169,110,0.04) 25px
+        -45deg, transparent, transparent 24px,
+        rgba(200,169,110,0.04) 24px, rgba(200,169,110,0.04) 25px
       );
       pointer-events: none;
     }
 
-    .hero-eyebrow {
-      font-size: 13px;
+    .week-badge {
+      display: inline-block;
+      background: rgba(200,169,110,0.12);
+      border: 1px solid rgba(200,169,110,0.35);
+      border-radius: 40px;
+      padding: 7px 18px;
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 14px;
+      margin-bottom: 20px;
     }
 
     .hero h1 {
@@ -97,32 +91,15 @@
       line-height: 1.65;
     }
 
-    /* ── Week badge ── */
-    .week-badge {
-      display: inline-block;
-      background: rgba(200,169,110,0.12);
-      border: 1px solid rgba(200,169,110,0.35);
-      border-radius: 40px;
-      padding: 7px 18px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-
-    /* ── Main container ── */
+    /* ── Form wrap ── */
     .form-wrap {
       max-width: 680px;
       margin: 0 auto;
       padding: 48px 24px 80px;
     }
 
-    /* ── Progress bar ── */
-    .progress-wrap {
-      margin-bottom: 40px;
-    }
+    /* ── Progress ── */
+    .progress-wrap { margin-bottom: 40px; }
 
     .progress-label {
       display: flex;
@@ -150,7 +127,7 @@
       transition: width 0.4s ease;
     }
 
-    /* ── Section headers ── */
+    /* ── Sections ── */
     .section-label {
       font-size: 13px;
       font-weight: 700;
@@ -165,20 +142,10 @@
       gap: 8px;
     }
 
-    .section-label span {
-      font-weight: 700;
-      color: var(--black);
-      font-size: 13px;
-    }
-
-    .form-section {
-      margin-bottom: 40px;
-    }
+    .form-section { margin-bottom: 40px; }
 
     /* ── Fields ── */
-    .field {
-      margin-bottom: 22px;
-    }
+    .field { margin-bottom: 22px; }
 
     label {
       display: block;
@@ -190,14 +157,10 @@
       margin-bottom: 7px;
     }
 
-    label .req {
-      color: var(--accent);
-      margin-left: 2px;
-    }
+    label .req { color: var(--accent); margin-left: 2px; }
 
     input[type="text"],
     input[type="email"],
-    input[type="number"],
     select,
     textarea {
       width: 100%;
@@ -207,7 +170,6 @@
       padding: 13px 16px;
       font-family: inherit;
       font-size: 15px;
-      font-weight: 400;
       color: var(--black);
       transition: border-color 0.18s, box-shadow 0.18s;
       appearance: none;
@@ -215,9 +177,7 @@
       outline: none;
     }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
+    input:focus, select:focus, textarea:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(200,169,110,0.12);
     }
@@ -230,24 +190,17 @@
       cursor: pointer;
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 96px;
-      line-height: 1.55;
-    }
+    textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
 
-    /* ── Two-col grid ── */
     .field-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
 
-    @media (max-width: 500px) {
-      .field-row { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
 
-    /* ── Radio/checkbox option chips ── */
+    /* ── Option chips ── */
     .option-group {
       display: flex;
       flex-wrap: wrap;
@@ -260,10 +213,6 @@
       flex-wrap: nowrap;
       align-items: flex-start;
       gap: 5px;
-    }
-
-    .option-group--column .option-chip label {
-      width: auto;
     }
 
     .option-chip input {
@@ -312,11 +261,37 @@
       border-color: var(--accent);
     }
 
-    .checkbox-chip label::before {
-      border-radius: 3px;
+    /* ── Highlight card ── */
+    .highlight-card {
+      background: var(--warm-white);
+      border: 1.5px solid var(--light-grey);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 16px;
     }
 
-    /* ── Scale / slider ── */
+    .highlight-card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .highlight-card-title::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── Nutrition slider ── */
     .scale-wrap {
       display: flex;
       align-items: center;
@@ -366,95 +341,7 @@
       text-align: center;
     }
 
-    /* ── Session counter tiles ── */
-    .session-tiles {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 4px;
-    }
-
-    .session-tile {
-      position: relative;
-    }
-
-    .session-tile input {
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .session-tile label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 52px;
-      height: 52px;
-      background: var(--warm-white);
-      border: 1.5px solid var(--light-grey);
-      border-radius: 8px;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--mid-grey);
-      cursor: pointer;
-      transition: all 0.15s;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    .session-tile input:checked + label {
-      background: var(--black);
-      border-color: var(--black);
-      color: var(--accent);
-    }
-
-    /* ── Highlight card ── */
-    .highlight-card {
-      background: var(--warm-white);
-      border: 1.5px solid var(--light-grey);
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 16px;
-    }
-
-    .highlight-card-title {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent-dark);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .highlight-card-title::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-
-    .highlight-card textarea,
-    .highlight-card input[type="text"] {
-      border: 1.5px solid transparent;
-      background: transparent;
-      padding: 4px 0;
-    }
-
-    .highlight-card textarea:focus,
-    .highlight-card input[type="text"]:focus {
-      border-color: transparent;
-      box-shadow: none;
-      border-bottom: 1.5px solid var(--accent);
-      border-radius: 0;
-    }
-
-    /* ── Submit button ── */
+    /* ── Submit ── */
     .submit-wrap {
       margin-top: 40px;
       display: flex;
@@ -488,17 +375,12 @@
     button[type="submit"]::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       height: 3px;
       background: var(--accent);
     }
 
-    button[type="submit"]:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .submit-note {
       font-size: 12px;
@@ -506,13 +388,8 @@
       text-align: center;
     }
 
-    /* ── Success state ── */
-    .success-screen {
-      display: none;
-      text-align: center;
-      padding: 64px 24px;
-    }
-
+    /* ── Success ── */
+    .success-screen { display: none; text-align: center; padding: 64px 24px; }
     .success-screen.visible { display: block; }
 
     .success-icon {
@@ -544,7 +421,7 @@
       line-height: 1.65;
     }
 
-    /* ── Error message ── */
+    /* ── Error ── */
     .error-msg {
       display: none;
       background: #fdf0ee;
@@ -559,6 +436,15 @@
 
     .error-msg.visible { display: block; }
 
+    /* ── Rating color dots ── */
+    .rating-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
     /* ── Footer ── */
     .site-footer {
       background: var(--black);
@@ -569,20 +455,7 @@
       letter-spacing: 0.06em;
     }
 
-    .site-footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* ── Helper: field hint ── */
-    .field-hint {
-      font-size: 11px;
-      color: var(--mid-grey);
-      margin-top: 5px;
-      letter-spacing: 0;
-      text-transform: none;
-      font-weight: 400;
-    }
+    .site-footer a { color: var(--accent); text-decoration: none; }
   </style>
 </head>
 <body>
@@ -604,7 +477,7 @@
   <div class="hero">
     <div class="week-badge" id="weekBadge">Weekly Check-In</div>
     <h1>How's the<br />Week Looking?</h1>
-    <p>Takes 3–4 minutes. Honest answers help Ryan adjust your programming before it becomes a problem.</p>
+    <p>2–3 minutes. Covers what TrainHeroic doesn't — so Ryan can adjust before next week starts.</p>
   </div>
 
   <div class="form-wrap">
@@ -617,7 +490,7 @@
         </svg>
       </div>
       <h2>Check-in logged.</h2>
-      <p>Ryan will review your week before your next session. Keep pushing — see you in the app.</p>
+      <p>Ryan will review before your next session. Keep the work going — see you in the app.</p>
     </div>
 
     <!-- FORM -->
@@ -640,101 +513,32 @@
 
         <div class="field-row">
           <div class="field">
-            <label for="email">Email Address <span class="req">*</span></label>
+            <label for="email">Email <span class="req">*</span></label>
             <input type="email" id="email" name="email" placeholder="alex@email.com" required />
           </div>
           <div class="field">
-            <label for="weekEnding">Week Ending <span class="req">*</span></label>
-            <input type="text" id="weekEnding" name="weekEnding" placeholder="e.g. June 8" required />
+            <label for="weekEnding">Week Ending (Sunday) <span class="req">*</span></label>
+            <input type="text" id="weekEnding" name="weekEnding" required />
           </div>
         </div>
       </div>
 
-      <!-- 02 · Training Compliance -->
+      <!-- 02 · Training -->
       <div class="form-section">
-        <div class="section-label"><span>02</span> Training Compliance</div>
-
-        <div class="field">
-          <label>Sessions Completed This Week <span class="req">*</span></label>
-          <div class="session-tiles">
-            <div class="session-tile">
-              <input type="radio" name="sessionsCompleted" id="s0" value="0" required />
-              <label for="s0">0</label>
-            </div>
-            <div class="session-tile">
-              <input type="radio" name="sessionsCompleted" id="s1" value="1" />
-              <label for="s1">1</label>
-            </div>
-            <div class="session-tile">
-              <input type="radio" name="sessionsCompleted" id="s2" value="2" />
-              <label for="s2">2</label>
-            </div>
-            <div class="session-tile">
-              <input type="radio" name="sessionsCompleted" id="s3" value="3" />
-              <label for="s3">3</label>
-            </div>
-            <div class="session-tile">
-              <input type="radio" name="sessionsCompleted" id="s4" value="4" />
-              <label for="s4">4</label>
-            </div>
-            <div class="session-tile">
-              <input type="radio" name="sessionsCompleted" id="s5" value="5" />
-              <label for="s5">5</label>
-            </div>
-            <div class="session-tile">
-              <input type="radio" name="sessionsCompleted" id="s6" value="6" />
-              <label for="s6">6</label>
-            </div>
-            <div class="session-tile">
-              <input type="radio" name="sessionsCompleted" id="s7" value="7" />
-              <label for="s7">7</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>How did your sessions feel overall? <span class="req">*</span></label>
-          <div class="option-group">
-            <div class="option-chip">
-              <input type="radio" name="sessionFeel" id="sf1" value="Below par — struggled to get through" required />
-              <label for="sf1">Struggled</label>
-            </div>
-            <div class="option-chip">
-              <input type="radio" name="sessionFeel" id="sf2" value="Average — got it done" />
-              <label for="sf2">Average</label>
-            </div>
-            <div class="option-chip">
-              <input type="radio" name="sessionFeel" id="sf3" value="Solid — felt good" />
-              <label for="sf3">Solid</label>
-            </div>
-            <div class="option-chip">
-              <input type="radio" name="sessionFeel" id="sf4" value="Strong — dialled in" />
-              <label for="sf4">Strong</label>
-            </div>
-            <div class="option-chip">
-              <input type="radio" name="sessionFeel" id="sf5" value="Best session in a while" />
-              <label for="sf5">Best in a while</label>
-            </div>
-          </div>
-        </div>
+        <div class="section-label"><span>02</span> Training</div>
 
         <div class="field">
           <label for="missedReason">If you missed sessions — what got in the way?</label>
-          <textarea id="missedReason" name="missedReason" placeholder="Work schedule, illness, travel, life happened..." style="min-height:72px;"></textarea>
-        </div>
-      </div>
-
-      <!-- 03 · Performance -->
-      <div class="form-section">
-        <div class="section-label"><span>03</span> Performance & Progress</div>
-
-        <div class="highlight-card">
-          <div class="highlight-card-title">Best Lift or Performance This Week</div>
-          <input type="text" name="bestLift" id="bestLift" placeholder="e.g. Deadlift 140kg × 3, ran 5k in 24:30..." />
+          <textarea id="missedReason" name="missedReason" placeholder="Work, illness, travel, life happened... Leave blank if you hit everything." style="min-height:72px;"></textarea>
         </div>
 
         <div class="field">
-          <label>Compared to Last Week, Lifts/Performance Felt:</label>
+          <label for="bestLift">Best Lift or Performance This Week</label>
+          <input type="text" name="bestLift" id="bestLift" placeholder="e.g. Deadlift 140kg × 3, ran 5k in 24:30, hit a new gymnastics skill..." />
+        </div>
+
+        <div class="field">
+          <label>Compared to Last Week, Performance Felt:</label>
           <div class="option-group">
             <div class="option-chip">
               <input type="radio" name="progressTrend" id="pt1" value="Noticeably down" />
@@ -756,93 +560,49 @@
         </div>
 
         <div class="field">
-          <label for="programFeedback">Any specific exercises or sets you want to flag?</label>
-          <textarea id="programFeedback" name="programFeedback" placeholder="Movements that felt off, weights that need adjusting, anything you want to swap out..." style="min-height:80px;"></textarea>
+          <label for="programFeedback">Any exercises or sets to flag?</label>
+          <textarea id="programFeedback" name="programFeedback" placeholder="Movements that felt off, weights that need adjusting, anything you want swapped..." style="min-height:80px;"></textarea>
         </div>
       </div>
 
-      <!-- 04 · Recovery -->
+      <!-- 03 · Recovery & Health -->
       <div class="form-section">
-        <div class="section-label"><span>04</span> Recovery</div>
+        <div class="section-label"><span>03</span> Recovery & Health</div>
 
         <div class="field">
-          <label>Average Sleep Quality This Week</label>
-          <div class="scale-wrap">
-            <span class="scale-label">Poor</span>
-            <input type="range" id="sleepQuality" name="sleepQuality" min="1" max="10" value="6"
-              oninput="document.getElementById('sleepQualityVal').textContent=this.value; updateSlider(this);" />
-            <span class="scale-value" id="sleepQualityVal">6</span>
-            <span class="scale-label">Excellent</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Average Hours of Sleep Per Night</label>
-          <div class="scale-wrap">
-            <span class="scale-label">4 hrs</span>
-            <input type="range" id="sleepHours" name="sleepHours" min="4" max="10" step="0.5" value="7"
-              oninput="document.getElementById('sleepHoursVal').textContent=this.value; updateSlider(this);" />
-            <span class="scale-value" id="sleepHoursVal">7</span>
-            <span class="scale-label">10 hrs</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Overall Energy Levels This Week</label>
-          <div class="scale-wrap">
-            <span class="scale-label">Exhausted</span>
-            <input type="range" id="energyLevel" name="energyLevel" min="1" max="10" value="6"
-              oninput="document.getElementById('energyLevelVal').textContent=this.value; updateSlider(this);" />
-            <span class="scale-value" id="energyLevelVal">6</span>
-            <span class="scale-label">Energised</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Stress / Life Load This Week</label>
-          <div class="scale-wrap">
-            <span class="scale-label">Very Low</span>
-            <input type="range" id="stressLevel" name="stressLevel" min="1" max="10" value="5"
-              oninput="document.getElementById('stressLevelVal').textContent=this.value; updateSlider(this);" />
-            <span class="scale-value" id="stressLevelVal">5</span>
-            <span class="scale-label">Very High</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Any Soreness, Pain or Tightness to Flag?</label>
+          <label>Soreness, Pain or Tightness to Flag? <span class="req">*</span></label>
           <div class="option-group--column option-group">
             <div class="option-chip">
-              <input type="radio" name="soreness" id="so1" value="Nothing to flag" />
-              <label for="so1">Nothing to flag</label>
+              <input type="radio" name="soreness" id="so1" value="Nothing to Flag" required />
+              <label for="so1">Nothing to Flag</label>
             </div>
             <div class="option-chip">
-              <input type="radio" name="soreness" id="so2" value="Minor DOMS — expected" />
-              <label for="so2">Minor DOMS — expected</label>
+              <input type="radio" name="soreness" id="so2" value="Minor Soreness" />
+              <label for="so2">Minor Soreness</label>
             </div>
             <div class="option-chip">
-              <input type="radio" name="soreness" id="so3" value="Persistent soreness / tightness" />
-              <label for="so3">Persistent soreness / tightness</label>
+              <input type="radio" name="soreness" id="so3" value="Persistent Soreness or Tightness" />
+              <label for="so3">Persistent Soreness or Tightness</label>
             </div>
             <div class="option-chip">
-              <input type="radio" name="soreness" id="so4" value="Pain — needs attention" />
-              <label for="so4">Pain — needs attention</label>
+              <input type="radio" name="soreness" id="so4" value="Pain — Needs Attention" />
+              <label for="so4">Pain — Needs Attention</label>
             </div>
           </div>
         </div>
 
         <div class="field">
-          <label for="sorenessNotes">Soreness / Pain Details</label>
-          <input type="text" id="sorenessNotes" name="sorenessNotes" placeholder="Location, when it started, what makes it worse..." />
+          <label for="sorenessNotes">Details if relevant</label>
+          <input type="text" id="sorenessNotes" name="sorenessNotes" placeholder="Location, when it started, what incites it, any restrictions that have arisen..." />
         </div>
       </div>
 
-      <!-- 05 · Nutrition -->
+      <!-- 04 · Nutrition -->
       <div class="form-section">
-        <div class="section-label"><span>05</span> Nutrition</div>
+        <div class="section-label"><span>04</span> Nutrition</div>
 
         <div class="field">
-          <label>How well did you hit your nutrition targets? <span class="req">*</span></label>
+          <label>How well did you hit your targets this week? <span class="req">*</span></label>
           <div class="scale-wrap">
             <span class="scale-label">Off track</span>
             <input type="range" id="nutritionAdherence" name="nutritionAdherence" min="1" max="10" value="6"
@@ -853,58 +613,31 @@
         </div>
 
         <div class="field">
-          <label for="nutritionNotes">Anything worth flagging nutrition-wise?</label>
+          <label for="nutritionNotes">Anything worth flagging?</label>
           <textarea id="nutritionNotes" name="nutritionNotes" placeholder="Missed meals, social events, big deviation from plan, appetite changes..." style="min-height:72px;"></textarea>
         </div>
       </div>
 
-      <!-- 06 · Weekly Summary -->
+      <!-- 05 · For Ryan -->
       <div class="form-section">
-        <div class="section-label"><span>06</span> Week in Review</div>
-
-        <div class="highlight-card" style="margin-bottom:16px;">
-          <div class="highlight-card-title">Biggest Win This Week</div>
-          <textarea name="weekWin" id="weekWin" placeholder="Something you nailed — in the gym or outside it..." style="min-height:72px; border:none; background:transparent; padding:4px 0;"></textarea>
-        </div>
-
-        <div class="highlight-card" style="border-color: #e0cec0;">
-          <div class="highlight-card-title" style="color:#a07040;">Biggest Challenge This Week</div>
-          <textarea name="weekChallenge" id="weekChallenge" placeholder="What made this week hard — training or life..." style="min-height:72px; border:none; background:transparent; padding:4px 0;"></textarea>
-        </div>
-      </div>
-
-      <!-- 07 · Ryan's Corner -->
-      <div class="form-section">
-        <div class="section-label"><span>07</span> Questions for Ryan</div>
+        <div class="section-label"><span>05</span> For Ryan</div>
 
         <div class="field">
-          <label for="coachQuestion">Anything you want Ryan to address before next week?</label>
-          <textarea id="coachQuestion" name="coachQuestion" placeholder="Program questions, technique concerns, mindset stuff — open floor." style="min-height:96px;"></textarea>
+          <label for="coachQuestion">Questions or anything to address before next week?</label>
+          <textarea id="coachQuestion" name="coachQuestion" placeholder="Program questions, technique concerns, scheduling changes — your opportunity to AMA." style="min-height:96px;"></textarea>
         </div>
 
         <div class="field">
-          <label>Overall, how would you rate this week? <span class="req">*</span></label>
-          <div class="option-group">
-            <div class="option-chip">
-              <input type="radio" name="weekRating" id="wr1" value="1 – Rough week" required />
-              <label for="wr1">😬 Rough</label>
-            </div>
-            <div class="option-chip">
-              <input type="radio" name="weekRating" id="wr2" value="2 – Below average" />
-              <label for="wr2">😐 Below avg</label>
-            </div>
-            <div class="option-chip">
-              <input type="radio" name="weekRating" id="wr3" value="3 – Average week" />
-              <label for="wr3">🙂 Average</label>
-            </div>
-            <div class="option-chip">
-              <input type="radio" name="weekRating" id="wr4" value="4 – Good week" />
-              <label for="wr4">😊 Good</label>
-            </div>
-            <div class="option-chip">
-              <input type="radio" name="weekRating" id="wr5" value="5 – Great week" />
-              <label for="wr5">🔥 Great</label>
-            </div>
+          <label>Overall week rating <span class="req">*</span></label>
+          <div class="scale-wrap">
+            <span class="scale-label">Rough</span>
+            <input type="range" id="weekRating" name="weekRating" min="1" max="5" value="3"
+              oninput="updateWeekRating(this);" />
+            <span class="scale-label" style="text-align:right;">Great</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; margin-top:12px;">
+            <span id="weekRatingDot" style="width:14px; height:14px; border-radius:50%; background:#E8D878; display:inline-block; flex-shrink:0; transition: background 0.2s;"></span>
+            <span id="weekRatingLabel" style="font-size:15px; font-weight:600; color:var(--black); transition: color 0.2s;">Average</span>
           </div>
         </div>
       </div>
@@ -924,59 +657,68 @@
   </footer>
 
   <script>
-    // ── Populate week badge dynamically ──────────────────────────
+    // ── Week badge & date placeholder ─────────────────────────────
     (function () {
       const now = new Date();
-      const day = now.getDay(); // 0 = Sun
-      const daysToSun = day === 0 ? 0 : 7 - day;
+      const daysToSun = now.getDay() === 0 ? 0 : 7 - now.getDay();
       const sunday = new Date(now);
       sunday.setDate(now.getDate() + daysToSun);
-      const opts = { month: 'long', day: 'numeric', year: 'numeric' };
-      const label = 'Week ending ' + sunday.toLocaleDateString('en-CA', opts);
-      document.getElementById('weekBadge').textContent = label;
-      document.getElementById('weekEnding').placeholder = sunday.toLocaleDateString('en-CA', { month: 'long', day: 'numeric' });
+      const full = sunday.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+      const short = sunday.toLocaleDateString('en-CA', { month: 'long', day: 'numeric' });
+      document.getElementById('weekBadge').textContent = 'Week ending ' + full;
+      document.getElementById('weekEnding').placeholder = short;
+      document.getElementById('weekEnding').value = short;
     })();
 
-    // ── Slider gradient fill ──────────────────────────────────────
-    function updateSlider(el) {
-      const min = parseFloat(el.min) || 0;
-      const max = parseFloat(el.max) || 100;
-      const val = parseFloat(el.value);
-      const pct = ((val - min) / (max - min)) * 100;
-      el.style.background = `linear-gradient(to right, var(--accent) 0%, var(--accent) ${pct}%, var(--light-grey) ${pct}%, var(--light-grey) 100%)`;
+    // ── Week rating slider ────────────────────────────────────────
+    const RATINGS = {
+      1: { label: 'Rough',         color: '#E87878' },
+      2: { label: 'Below Average', color: '#E8A878' },
+      3: { label: 'Average',       color: '#E8D878' },
+      4: { label: 'Above Average', color: '#C4DC5A' },
+      5: { label: 'Great',         color: '#7CC47C' }
+    };
+
+    function updateWeekRating(el) {
+      const r = RATINGS[el.value];
+      document.getElementById('weekRatingLabel').textContent = r.label;
+      document.getElementById('weekRatingDot').style.background = r.color;
+      const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+      el.style.background = `linear-gradient(to right, ${r.color} 0%, ${r.color} ${pct}%, var(--light-grey) ${pct}%, var(--light-grey) 100%)`;
     }
 
+    // Initialise on load
+    updateWeekRating(document.getElementById('weekRating'));
+
+    // ── Slider gradient ───────────────────────────────────────────
+    function updateSlider(el) {
+      const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+      el.style.background = `linear-gradient(to right, var(--accent) 0%, var(--accent) ${pct}%, var(--light-grey) ${pct}%, var(--light-grey) 100%)`;
+    }
     document.querySelectorAll('input[type="range"]').forEach(updateSlider);
 
     // ── Progress bar ──────────────────────────────────────────────
-    const REQUIRED_FIELDS = ['firstName', 'lastName', 'email', 'weekEnding'];
-
     function updateProgress() {
-      const totalSections = 7;
-      let filled = 0;
-
-      if (document.getElementById('firstName').value.trim()) filled++;
-      if (document.getElementById('email').value.trim()) filled++;
-      if (document.querySelector('input[name="sessionsCompleted"]:checked')) filled++;
-      if (document.querySelector('input[name="sessionFeel"]:checked')) filled++;
-      if (document.getElementById('weekWin').value.trim()) filled++;
-      if (document.querySelector('input[name="weekRating"]:checked')) filled++;
-      if (document.getElementById('nutritionAdherence').value) filled++;
-
-      const pct = Math.round((filled / totalSections) * 100);
+      const checks = [
+        document.getElementById('firstName').value.trim(),
+        document.getElementById('email').value.trim(),
+        document.querySelector('input[name="soreness"]:checked'),
+        document.getElementById('weekRating').value,
+        document.getElementById('nutritionAdherence').value
+      ];
+      const filled = checks.filter(Boolean).length;
+      const pct = Math.round((filled / checks.length) * 100);
       document.querySelector('.progress-fill').style.width = pct + '%';
       document.querySelector('.progress-label span:last-child').textContent = pct + '%';
     }
-
     document.getElementById('checkInForm').addEventListener('input', updateProgress);
     document.getElementById('checkInForm').addEventListener('change', updateProgress);
 
     // ── Form submission ───────────────────────────────────────────
-    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // ← paste your deployed URL
+    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
     document.getElementById('checkInForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-
       const btn = document.getElementById('submitBtn');
       const errMsg = document.getElementById('errorMsg');
 
@@ -985,42 +727,29 @@
       errMsg.classList.remove('visible');
 
       const payload = {
-        firstName:           document.getElementById('firstName').value.trim(),
-        lastName:            document.getElementById('lastName').value.trim(),
-        email:               document.getElementById('email').value.trim(),
-        weekEnding:          document.getElementById('weekEnding').value.trim(),
-        sessionsCompleted:   document.querySelector('input[name="sessionsCompleted"]:checked')?.value || '',
-        sessionFeel:         document.querySelector('input[name="sessionFeel"]:checked')?.value || '',
-        missedReason:        document.getElementById('missedReason').value.trim(),
-        bestLift:            document.getElementById('bestLift').value.trim(),
-        progressTrend:       document.querySelector('input[name="progressTrend"]:checked')?.value || '',
-        programFeedback:     document.getElementById('programFeedback').value.trim(),
-        sleepQuality:        document.getElementById('sleepQuality').value,
-        sleepHours:          document.getElementById('sleepHours').value,
-        energyLevel:         document.getElementById('energyLevel').value,
-        stressLevel:         document.getElementById('stressLevel').value,
-        soreness:            document.querySelector('input[name="soreness"]:checked')?.value || '',
-        sorenessNotes:       document.getElementById('sorenessNotes').value.trim(),
-        nutritionAdherence:  document.getElementById('nutritionAdherence').value,
-        nutritionNotes:      document.getElementById('nutritionNotes').value.trim(),
-        weekWin:             document.getElementById('weekWin').value.trim(),
-        weekChallenge:       document.getElementById('weekChallenge').value.trim(),
-        coachQuestion:       document.getElementById('coachQuestion').value.trim(),
-        weekRating:          document.querySelector('input[name="weekRating"]:checked')?.value || '',
-        submittedAt:         new Date().toLocaleString('en-CA', { timeZone: 'America/Toronto' })
+        submittedAt:        new Date().toLocaleString('en-CA', { timeZone: 'America/Edmonton' }),
+        firstName:          document.getElementById('firstName').value.trim(),
+        lastName:           document.getElementById('lastName').value.trim(),
+        email:              document.getElementById('email').value.trim(),
+        weekEnding:         document.getElementById('weekEnding').value.trim(),
+        missedReason:       document.getElementById('missedReason').value.trim(),
+        bestLift:           document.getElementById('bestLift').value.trim(),
+        progressTrend:      document.querySelector('input[name="progressTrend"]:checked')?.value || '',
+        programFeedback:    document.getElementById('programFeedback').value.trim(),
+        soreness:           document.querySelector('input[name="soreness"]:checked')?.value || '',
+        sorenessNotes:      document.getElementById('sorenessNotes').value.trim(),
+        nutritionAdherence: document.getElementById('nutritionAdherence').value,
+        nutritionNotes:     document.getElementById('nutritionNotes').value.trim(),
+        coachQuestion:      document.getElementById('coachQuestion').value.trim(),
+        weekRating:         document.getElementById('weekRating').value + ' – ' + RATINGS[document.getElementById('weekRating').value].label
       };
 
       try {
-        const res = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
+        const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
         if (!res.ok) throw new Error('Network error');
-
         document.getElementById('checkInForm').style.display = 'none';
         document.getElementById('successScreen').classList.add('visible');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
       } catch (err) {
         errMsg.classList.add('visible');
         btn.disabled = false;
@@ -1029,20 +758,13 @@
     });
   </script>
 
-  <!-- Progress bar injected above form-wrap -->
   <script>
     const wrap = document.querySelector('.form-wrap');
-    const progressHTML = `
+    wrap.insertAdjacentHTML('afterbegin', `
       <div class="progress-wrap">
-        <div class="progress-label">
-          <span>Completion</span>
-          <span>0%</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill"></div>
-        </div>
-      </div>`;
-    wrap.insertAdjacentHTML('afterbegin', progressHTML);
+        <div class="progress-label"><span>Completion</span><span>0%</span></div>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>`);
   </script>
 
 </body>
