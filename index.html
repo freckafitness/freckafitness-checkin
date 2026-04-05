@@ -6,6 +6,13 @@
   <title>Frecka Fitness — Weekly Check-In</title>
 
   <style>
+    @font-face {
+      font-family: 'Halyard Display';
+      src: url('./Fonts/Halyard Display.otf') format('opentype');
+      font-weight: 100 900;
+      font-style: normal;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -22,7 +29,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: -apple-system, 'Helvetica Neue', sans-serif;
+      font-family: 'Halyard Display', -apple-system, 'Helvetica Neue', sans-serif;
       background: var(--off-white);
       color: var(--black);
       min-height: 100vh;
@@ -533,15 +540,15 @@
         </div>
 
         <div class="field">
-          <label for="bestLift">Best Lift or Performance This Week</label>
-          <input type="text" name="bestLift" id="bestLift" placeholder="e.g. Deadlift 140kg × 3, ran 5k in 24:30, hit a new gymnastics skill..." />
+          <label for="bestLift">Best Lift or Performance This Week <span class="req">*</span></label>
+          <input type="text" name="bestLift" id="bestLift" placeholder="e.g. Deadlift 140kg × 3, ran 5k in 24:30, hit a new gymnastics skill..." required />
         </div>
 
         <div class="field">
-          <label>Compared to Last Week, Performance Felt:</label>
+          <label>Compared to Last Week, Performance Felt: <span class="req">*</span></label>
           <div class="option-group">
             <div class="option-chip">
-              <input type="radio" name="progressTrend" id="pt1" value="Noticeably down" />
+              <input type="radio" name="progressTrend" id="pt1" value="Noticeably down" required />
               <label for="pt1">Noticeably down</label>
             </div>
             <div class="option-chip">
