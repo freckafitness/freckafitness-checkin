@@ -638,13 +638,13 @@
           <label>Overall week rating <span class="req">*</span></label>
           <div class="scale-wrap">
             <span class="scale-label">Rough</span>
-            <input type="range" id="weekRating" name="weekRating" min="1" max="5" value="3"
+            <input type="range" id="weekRating" name="weekRating" min="1" max="10" value="6"
               oninput="updateWeekRating(this);" />
             <span class="scale-label" style="text-align:right;">Great</span>
           </div>
           <div style="display:flex; align-items:center; gap:10px; margin-top:12px;">
-            <span id="weekRatingDot" style="width:14px; height:14px; border-radius:50%; background:#E8D878; display:inline-block; flex-shrink:0; transition: background 0.2s;"></span>
-            <span id="weekRatingLabel" style="font-size:15px; font-weight:600; color:var(--black); transition: color 0.2s;">Average</span>
+            <span id="weekRatingDot" style="width:14px; height:14px; border-radius:50%; background:#A0C858; display:inline-block; flex-shrink:0; transition: background 0.2s;"></span>
+            <span id="weekRatingLabel" style="font-size:15px; font-weight:600; color:var(--black); transition: color 0.2s;">Good</span>
           </div>
         </div>
       </div>
@@ -679,11 +679,16 @@
 
     // ── Week rating slider ────────────────────────────────────────
     const RATINGS = {
-      1: { label: 'Rough',         color: '#E87878' },
-      2: { label: 'Below Average', color: '#E8A878' },
-      3: { label: 'Average',       color: '#E8D878' },
-      4: { label: 'Above Average', color: '#C4DC5A' },
-      5: { label: 'Great',         color: '#7CC47C' }
+      1:  { label: 'Rough',           color: '#E87878' },
+      2:  { label: 'Rough',           color: '#E07070' },
+      3:  { label: 'Below Average',   color: '#E8A070' },
+      4:  { label: 'Below Average',   color: '#E8B860' },
+      5:  { label: 'Average',         color: '#E8C855' },
+      6:  { label: 'Good',            color: '#A0C858' },
+      7:  { label: 'Good',            color: '#90C460' },
+      8:  { label: 'Above Average',   color: '#78C068' },
+      9:  { label: 'Great',           color: '#60B870' },
+      10: { label: 'Great',           color: '#48B078' }
     };
 
     function updateWeekRating(el) {
@@ -748,7 +753,7 @@
         nutritionAdherence: document.getElementById('nutritionAdherence').value,
         nutritionNotes:     document.getElementById('nutritionNotes').value.trim(),
         coachQuestion:      document.getElementById('coachQuestion').value.trim(),
-        weekRating:         document.getElementById('weekRating').value + ' – ' + RATINGS[document.getElementById('weekRating').value].label
+        weekRating:         document.getElementById('weekRating').value
       };
 
       try {
